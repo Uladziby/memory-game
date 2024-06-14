@@ -1,0 +1,14 @@
+<div class="container-card">
+  <div
+    class="card"
+    [ngStyle]="cardStyles"
+    [ngClass]="{
+      flipped: stateCard === 'Flipped',
+      unflipped: stateCard === 'Unflipped'
+    }"
+    (click)="flipCard()"
+  >
+    <div class="card-front"></div>
+    <div class="card-back"></div>
+  </div>
+</div>

@@ -3,3 +3,8 @@ export const aboutMe = new Map<string, string>([
   ['Mail', 'yanushevskyv@gmail.com'],
   ['Task Repo', 'https://github.com/Uladziby/async-race-angular'],
 ]);
+
+export enum StateCardEnum {
+  Unflipped = 'Unflipped',
+  Flipped = 'Flipped',
+}
