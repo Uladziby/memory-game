@@ -1,7 +1,9 @@
 <div class="w-full flex flex-col">
-  <div class="flex justify-center">
-    GridGame
-
-    <app-card></app-card>
+  <div
+    class="w-full flex-wrap flex items-center justify-center flex-row my-4 max-w-screen-lg gap-2"
+  >
+    <div class="grid grid-cols-4 gap-y-4 gap-x-4 max-w-screen-lg">
+      <app-card *ngFor="let card of cards" [card]="card"></app-card>
+    </div>
   </div>
 </div>

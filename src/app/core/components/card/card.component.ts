@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { StateCardEnum } from '../../../shared/constants';
+import { CardType, StateCardEnum } from '../../../shared/types';
 
 @Component({
   selector: 'app-card',
@@ -11,12 +11,12 @@ import { StateCardEnum } from '../../../shared/constants';
 })
 export class CardComponent {
   stateCard: StateCardEnum = StateCardEnum.Unflipped;
-  @Input() cardImage!: string;
+  @Input() card!: CardType;
   cardStyles = {};
 
   ngOnInit() {
     this.cardStyles = {
-      'background-image': `url(${this.cardImage})`,
+      'background-image': `url(${this.card.url})`,
     };
   }
 
