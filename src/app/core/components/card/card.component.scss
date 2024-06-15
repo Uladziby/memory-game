@@ -19,6 +19,12 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  &.yes {
+    box-shadow: 0 0 1.5rem rgb(13, 231, 13);
+  }
+  &.no {
+    box-shadow: 0 0 1.5rem rgb(230, 15, 26);
+  }
 }
 
 .card:hover {

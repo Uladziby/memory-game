@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CardType, StateCardEnum } from '../../../shared/types';
+import {
+  animate,
+  keyframes,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-card',
@@ -15,6 +15,23 @@ import { CardType, StateCardEnum } from '../../../shared/types';
   imports: [CommonModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
+  animations: [
+    trigger('wobble', [
+      transition(
+        'false => true',
+        animate(
+          '0.75s',
+          keyframes([
+            style({ transform: 'translate(-5%)', offset: 0.1 }),
+            style({ transform: 'translate(5%)', offset: 0.3 }),
+            style({ transform: 'translate(-5%)', offset: 0.5 }),
+            style({ transform: 'translate(5%)', offset: 0.7 }),
+            style({ transform: 'translate(0)', offset: 0.9 }),
+          ])
+        )
+      ),
+    ]),
+  ],
 })
 export class CardComponent {
   stateCard: StateCardEnum = StateCardEnum.Unflipped;
@@ -22,13 +39,16 @@ export class CardComponent {
   @Output() cardId: EventEmitter<any> = new EventEmitter<any>();
   cardStyles = {};
 
+  protected woobleField = false;
+
   ngOnInit() {
     this.cardStyles = {
       'background-image': `url(${this.card.url})`,
     };
-    /*  this.stateCard = this.card.isFlipped
+
+    this.stateCard = this.card.isMatched
       ? StateCardEnum.Flipped
-      : StateCardEnum.Unflipped; */
+      : StateCardEnum.Unflipped;
   }
 
   flipCard() {
@@ -40,7 +60,11 @@ export class CardComponent {
   }
 
   flipToBack() {
-    this.stateCard = StateCardEnum.Unflipped;
+    this.woobleField = true;
+    setTimeout(() => {
+      this.stateCard = StateCardEnum.Unflipped;
+      this.woobleField = false;
+    }, 2000);
   }
 
   flipToFront() {

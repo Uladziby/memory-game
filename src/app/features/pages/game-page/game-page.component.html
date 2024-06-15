@@ -1,6 +1,10 @@
-<div class="w-full flex flex-col">
+<div class="flex flex-row justify-center">
   <div
-    class="w-full flex-wrap flex items-center justify-center flex-row my-4 max-w-screen-lg gap-2"
+    class="w-11/12 flex-wrap items-center justify-center flex-row my-4 max-w-screen-lg gap-2"
+    [ngClass]="{
+      hidden: isStartGame === false,
+      visible: isStartGame === true
+    }"
   >
     <div class="grid grid-cols-4 gap-y-4 gap-x-4 max-w-screen-lg">
       <app-card
@@ -9,5 +13,28 @@
         (cardId)="onCheckCardId($event)"
       ></app-card>
     </div>
+  </div>
+  <div class="w-2/12 flex justify-center flex-col gap-6">
+    <span class="text-3xl text-center"> Your score: {{ 120 }} </span>
+    <button
+      *ngIf="isStartGame === false"
+      class="flex items-center justify-center gap-4 btn-control-panel"
+      (click)="onStartGame()"
+    >
+      <lucide-icon size="48" name="gamepad-2"></lucide-icon>
+      <span class="text-2xl">Start Game</span>
+    </button>
+    <app-timer
+      [isStopTimer]="isStopGame"
+      *ngIf="isStartGame === true"
+    ></app-timer>
+    <button
+      *ngIf="isStartGame === true"
+      class="flex items-center justify-center gap-4 btn-control-panel mt-10"
+      (click)="onStopGame()"
+    >
+      <lucide-icon size="36" name="rotate-ccw"></lucide-icon>
+      <span class="text-xl">Stop Game </span>
+    </button>
   </div>
 </div>

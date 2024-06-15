@@ -8,3 +8,15 @@
   flex-wrap: wrap;
   margin: 1rem 0;
 }
+
+:host {
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}

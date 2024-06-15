@@ -1,7 +1,7 @@
 export type CardType = {
   url: string;
   id: number;
-  isMarked: boolean;
+  isMatched: boolean;
 };
 
 export enum StateCardEnum {

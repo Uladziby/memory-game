@@ -4,32 +4,41 @@ import { CardComponent } from '../../../core/components/card/card.component';
 import { CardEmitType, CardType } from '../../../shared/types';
 import { CatsCards } from '@/app/shared/constants';
 import { delay } from '@/app/shared/utils';
+import { LucideAngularModule } from 'lucide-angular';
+import { TimerComponent } from '@/app/core/components/timer/timer.component';
 
 @Component({
   selector: 'app-game-page',
   standalone: true,
-  imports: [CardComponent, CommonModule, NgFor],
+  imports: [
+    CardComponent,
+    CommonModule,
+    NgFor,
+    LucideAngularModule,
+    TimerComponent,
+  ],
   templateUrl: './game-page.component.html',
   styleUrl: './game-page.component.scss',
 })
 export class GamePageComponent {
   cards: CardType[] = [];
+
   private isAnimation = false;
+
   private FLIP_DELAY = 2000;
 
-  private selectedCard: {
-    id: number;
-    flipToBack: () => void;
-    flipToFront: () => void;
-  } | null = null;
+  public isStartGame = false;
+
+  isStopGame: boolean = false;
+
+  private selectedCard: CardEmitType | null = null;
 
   constructor() {
-    this.cards = CatsCards.concat(CatsCards);
-
     this.shuffleCards();
   }
 
   shuffleCards() {
+    this.cards = CatsCards.concat(CatsCards);
     this.cards = this.cards.sort(() => Math.random() - 0.5);
   }
 
@@ -58,11 +67,38 @@ export class GamePageComponent {
     } else {
       this.onMarkedCards(id);
     }
+
     this.isAnimation = false;
     this.selectedCard = null;
   }
+
   onMarkedCards(id: number) {
-    console.log('marked cards', this.selectedCard, id);
-    //this.cards = this.cards.map((card) => {});
+    console.log('marked cards');
+    this.cards = this.cards.map((card) => {
+      if (card.id === id) {
+        return {
+          ...card,
+          isMarked: true,
+        };
+      }
+      return card;
+    });
+  }
+
+  onStartGame() {
+    console.log('start game', this.isStartGame);
+    this.isStartGame = true;
+    this.isStopGame = false;
+  }
+
+  onStopGame() {
+    console.log('restart game', this.isStopGame);
+    this.isStopGame = true;
+
+    setTimeout(() => {
+      this.isStartGame = false;
+
+      this.shuffleCards();
+    }, 0);
   }
 }
