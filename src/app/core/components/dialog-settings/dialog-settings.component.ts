@@ -10,6 +10,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { getFieldSize } from '@/app/shared/utils';
 
 @Component({
   selector: 'app-dialog-settings',
@@ -37,6 +38,7 @@ export class DialogSettingsComponent {
   onConfirm() {
     this.dialogRef.close(this.selectedType);
     console.log('selectedType', this.selectedType);
+    localStorage.setItem('selectedType', `${getFieldSize(this.selectedType)}`);
   }
 
   onCancel() {

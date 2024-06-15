@@ -30,17 +30,25 @@ export class GamePageComponent {
   public isStartGame = false;
 
   public numberOfMoves: number = 0;
+  public fieldSize: number;
 
   isStopGame: boolean = false;
 
   private selectedCard: CardEmitType | null = null;
 
   constructor() {
-    this.shuffleCards();
+    this.fieldSize = Number(localStorage.getItem('selectedType'));
+    this.shuffleCards(this.fieldSize);
   }
 
-  shuffleCards() {
-    this.cards = CatsCards.concat(CatsCards);
+  shuffleCards(size: number) {
+    const transformedArray = CatsCards.sort(() => Math.random() - 0.5).slice(
+      0,
+      size
+    );
+
+    this.cards = transformedArray.concat(transformedArray);
+    console.log('this.cards', transformedArray);
     this.cards = this.cards.sort(() => Math.random() - 0.5);
   }
 
@@ -99,7 +107,7 @@ export class GamePageComponent {
     setTimeout(() => {
       this.isStartGame = false;
 
-      this.shuffleCards();
+      this.shuffleCards(this.fieldSize);
     }, 0);
   }
 
