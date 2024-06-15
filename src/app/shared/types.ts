@@ -19,3 +19,7 @@ export type CardEmitType = {
   flipToBack: () => void;
   flipToFront: () => void;
 };
+
+export interface ChooseTypeDialogData {
+  selectedType?: '4x4' | '5x5';
+}

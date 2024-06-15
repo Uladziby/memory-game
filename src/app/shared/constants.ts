@@ -41,6 +41,21 @@ export const CatsCards: CardType[] = [
     id: 8,
     isMatched: false,
   },
+  {
+    url: '../../../../assets/cats-cards/cat9.jpg',
+    id: 9,
+    isMatched: false,
+  },
+  {
+    url: '../../../../assets/cats-cards/cat10.jpg',
+    id: 10,
+    isMatched: false,
+  },
+  {
+    url: '../../../../assets/cats-cards/cat11.jpg',
+    id: 11,
+    isMatched: false,
+  },
 ];
 
 export const aboutMe = new Map<string, string>([
