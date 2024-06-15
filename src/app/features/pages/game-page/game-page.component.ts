@@ -78,7 +78,6 @@ export class GamePageComponent {
       if (card.id === id) {
         return {
           ...card,
-          isMarked: true,
         };
       }
       return card;
@@ -86,13 +85,11 @@ export class GamePageComponent {
   }
 
   onStartGame() {
-    console.log('start game', this.isStartGame);
     this.isStartGame = true;
     this.isStopGame = false;
   }
 
   onStopGame() {
-    console.log('restart game', this.isStopGame);
     this.isStopGame = true;
 
     setTimeout(() => {
