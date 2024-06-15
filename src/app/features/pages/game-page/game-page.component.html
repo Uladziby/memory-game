@@ -8,14 +8,16 @@
   >
     <div class="grid grid-cols-4 gap-y-4 gap-x-4 max-w-screen-lg">
       <app-card
-        *ngFor="let card of cards"
+        *ngFor="let card of cards; trackBy: trackByFn"
         [card]="card"
         (cardId)="onCheckCardId($event)"
       ></app-card>
     </div>
   </div>
   <div class="w-2/12 flex justify-center flex-col gap-6">
-    <span class="text-3xl text-center"> Your score: {{ 120 }} </span>
+    <span *ngIf="isStartGame === true" class="text-3xl text-center"
+      >Score: {{ numberOfMoves }}
+    </span>
     <button
       *ngIf="isStartGame === false"
       class="flex items-center justify-center gap-4 btn-control-panel"

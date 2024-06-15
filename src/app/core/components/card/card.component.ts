@@ -8,11 +8,12 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
   animations: [
@@ -35,8 +36,11 @@ import {
 })
 export class CardComponent {
   stateCard: StateCardEnum = StateCardEnum.Unflipped;
+
   @Input() card!: CardType;
+
   @Output() cardId: EventEmitter<any> = new EventEmitter<any>();
+
   cardStyles = {};
 
   protected woobleField = false;
@@ -45,10 +49,6 @@ export class CardComponent {
     this.cardStyles = {
       'background-image': `url(${this.card.url})`,
     };
-
-    this.stateCard = this.card.isMatched
-      ? StateCardEnum.Flipped
-      : StateCardEnum.Unflipped;
   }
 
   flipCard() {
@@ -64,7 +64,7 @@ export class CardComponent {
     setTimeout(() => {
       this.stateCard = StateCardEnum.Unflipped;
       this.woobleField = false;
-    }, 2000);
+    }, 500);
   }
 
   flipToFront() {

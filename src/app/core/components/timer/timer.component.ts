@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { Subject, Subscription, interval, takeUntil } from 'rxjs';
 
@@ -23,15 +29,14 @@ export class TimerComponent implements OnChanges {
   reset$ = new Subject();
 
   @Input() isStopTimer: boolean = false;
-
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.init();
   }
 
   init() {
     this.sub = this.timer.pipe(takeUntil(this.reset$)).subscribe(() => {
       this.updateCounter();
-
+      this.cdr.markForCheck();
       if (this.isStopTimer) {
         this.reset$.next(void 0);
         this.timerElement = '0';

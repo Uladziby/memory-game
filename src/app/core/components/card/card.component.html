@@ -5,11 +5,19 @@
     [ngStyle]="cardStyles"
     [ngClass]="{
       flipped: stateCard === 'Flipped',
-      unflipped: stateCard === 'Unflipped'
+      unflipped: stateCard === 'Unflipped',
+      yes: this.card.isMatched === true
     }"
     (click)="flipCard()"
   >
-    <div class="card-front"></div>
+    <div class="card-front flex justify-center items-center">
+      <lucide-icon
+        *ngIf="this.card.isMatched"
+        color="#86efac"
+        size="48"
+        name="check"
+      ></lucide-icon>
+    </div>
     <div class="card-back"></div>
   </div>
 </div>

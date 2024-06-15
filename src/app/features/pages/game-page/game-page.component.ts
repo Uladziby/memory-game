@@ -29,6 +29,8 @@ export class GamePageComponent {
 
   public isStartGame = false;
 
+  public numberOfMoves: number = 0;
+
   isStopGame: boolean = false;
 
   private selectedCard: CardEmitType | null = null;
@@ -42,32 +44,32 @@ export class GamePageComponent {
     this.cards = this.cards.sort(() => Math.random() - 0.5);
   }
 
-  async onCheckCardId(card: CardEmitType) {
-    const { id, flipToBack, flipToFront } = card;
-
-    if (this.isAnimation) {
-      return;
-    }
+  async onCheckCardId(activeCard: CardEmitType) {
+    if (this.isAnimation) return;
 
     this.isAnimation = true;
 
-    flipToFront();
+    activeCard.flipToFront();
 
     if (!this.selectedCard) {
-      this.selectedCard = card;
+      this.selectedCard = activeCard;
 
       this.isAnimation = false;
       return;
     }
 
-    if (this.selectedCard.id !== id) {
+    if (this.selectedCard.id !== activeCard.id) {
       await delay(this.FLIP_DELAY);
 
-      await Promise.all([this.selectedCard.flipToBack(), flipToBack()]);
+      await Promise.all([
+        this.selectedCard.flipToBack(),
+        activeCard.flipToBack(),
+      ]);
     } else {
-      this.onMarkedCards(id);
+      this.onMarkedCards(activeCard.id);
     }
 
+    this.numberOfMoves++;
     this.isAnimation = false;
     this.selectedCard = null;
   }
@@ -78,6 +80,7 @@ export class GamePageComponent {
       if (card.id === id) {
         return {
           ...card,
+          isMatched: true,
         };
       }
       return card;
@@ -87,6 +90,7 @@ export class GamePageComponent {
   onStartGame() {
     this.isStartGame = true;
     this.isStopGame = false;
+    this.numberOfMoves = 0;
   }
 
   onStopGame() {
@@ -97,5 +101,9 @@ export class GamePageComponent {
 
       this.shuffleCards();
     }, 0);
+  }
+
+  trackByFn(index: number, hero: { id: number }) {
+    return hero ? hero.id : undefined;
   }
 }

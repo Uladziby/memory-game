@@ -9,6 +9,11 @@ export enum StateCardEnum {
   Flipped = 'Flipped',
 }
 
+export enum MatchedCardEnum {
+  Matched = 'yes',
+  Unmatched = 'no',
+}
+
 export type CardEmitType = {
   id: number;
   flipToBack: () => void;

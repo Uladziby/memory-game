@@ -9,6 +9,7 @@ import {
   Gamepad2,
   RotateCcw,
   Hourglass,
+  Check,
 } from 'lucide-angular';
 
 import { routes } from './app.routes';
@@ -26,6 +27,7 @@ export const appConfig: ApplicationConfig = {
         Gamepad2,
         RotateCcw,
         Hourglass,
+        Check,
       })
     ),
     provideAnimationsAsync(),
