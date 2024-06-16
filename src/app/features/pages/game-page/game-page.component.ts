@@ -37,7 +37,12 @@ export class GamePageComponent {
   private selectedCard: CardEmitType | null = null;
 
   constructor() {
-    this.fieldSize = Number(localStorage.getItem('selectedType'));
+    const selectedType = Number(localStorage.getItem('selectedType'));
+
+    this.fieldSize = selectedType ? selectedType : 8;
+
+    console.log('this.fieldSize', this.fieldSize);
+
     this.shuffleCards(this.fieldSize);
   }
 
@@ -47,9 +52,9 @@ export class GamePageComponent {
       size
     );
 
-    this.cards = transformedArray.concat(transformedArray);
-    console.log('this.cards', transformedArray);
-    this.cards = this.cards.sort(() => Math.random() - 0.5);
+    this.cards = transformedArray
+      .concat(transformedArray)
+      .sort(() => Math.random() - 0.5);
   }
 
   async onCheckCardId(activeCard: CardEmitType) {
