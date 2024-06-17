@@ -10,6 +10,7 @@ import {
   RotateCcw,
   Hourglass,
   Check,
+  Crown,
 } from 'lucide-angular';
 
 import { routes } from './app.routes';
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
         RotateCcw,
         Hourglass,
         Check,
+        Crown,
       })
     ),
     provideAnimationsAsync(),

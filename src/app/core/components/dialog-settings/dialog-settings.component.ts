@@ -37,7 +37,6 @@ export class DialogSettingsComponent {
 
   onConfirm() {
     this.dialogRef.close(this.selectedType);
-    console.log('selectedType', this.selectedType);
     localStorage.setItem('selectedType', `${getFieldSize(this.selectedType)}`);
   }
 

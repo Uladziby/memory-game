@@ -23,3 +23,8 @@ export type CardEmitType = {
 export interface ChooseTypeDialogData {
   selectedType?: '4x4' | '5x5';
 }
+
+export type WinnerType = {
+  time: string;
+  score: number;
+};

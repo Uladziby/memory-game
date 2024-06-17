@@ -1,8 +1,10 @@
 import {
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
@@ -29,6 +31,8 @@ export class TimerComponent implements OnChanges {
   reset$ = new Subject();
 
   @Input() isStopTimer: boolean = false;
+
+  @Output() setFinalTime = new EventEmitter<string>();
   constructor(private cdr: ChangeDetectorRef) {
     this.init();
   }
@@ -48,6 +52,7 @@ export class TimerComponent implements OnChanges {
     if (changes['isStopTimer']) {
       if (this.isStopTimer) {
         this.stopTimer();
+        this.setFinalTime.emit(this.timerElement);
       }
     }
   }
@@ -78,5 +83,7 @@ export class TimerComponent implements OnChanges {
       this.timeMin++;
       this.timeSec = 0;
     }
+
+    this.setFinalTime.emit(this.timerElement);
   }
 }

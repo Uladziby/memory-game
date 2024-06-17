@@ -6,6 +6,8 @@ import { CatsCards } from '@/app/shared/constants';
 import { delay } from '@/app/shared/utils';
 import { LucideAngularModule } from 'lucide-angular';
 import { TimerComponent } from '@/app/core/components/timer/timer.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogWinnerComponent } from '@/app/core/components/dialog-winner/dialog-winner.component';
 
 @Component({
   selector: 'app-game-page',
@@ -21,7 +23,7 @@ import { TimerComponent } from '@/app/core/components/timer/timer.component';
   styleUrl: './game-page.component.scss',
 })
 export class GamePageComponent {
-  cards: CardType[] = [];
+  public cards: CardType[] = [];
 
   private isAnimation = false;
 
@@ -30,18 +32,19 @@ export class GamePageComponent {
   public isStartGame = false;
 
   public numberOfMoves: number = 0;
+
   public fieldSize: number;
 
-  isStopGame: boolean = false;
+  public isStopGame: boolean = false;
+
+  public time: string = '00:00';
 
   private selectedCard: CardEmitType | null = null;
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     const selectedType = Number(localStorage.getItem('selectedType'));
 
     this.fieldSize = selectedType ? selectedType : 8;
-
-    console.log('this.fieldSize', this.fieldSize);
 
     this.shuffleCards(this.fieldSize);
   }
@@ -88,7 +91,6 @@ export class GamePageComponent {
   }
 
   onMarkedCards(id: number) {
-    console.log('marked cards');
     this.cards = this.cards.map((card) => {
       if (card.id === id) {
         return {
@@ -98,6 +100,17 @@ export class GamePageComponent {
       }
       return card;
     });
+
+    this.dialog.open(DialogWinnerComponent, {
+      data: { time: this.time, score: this.numberOfMoves },
+    });
+
+    console.log('WINNER', this.time, this.numberOfMoves);
+    if (this.cards.every((card) => card.isMatched)) {
+      this.dialog.open(DialogWinnerComponent, {
+        data: { winner: { time: this.time, score: this.numberOfMoves } },
+      });
+    }
   }
 
   onStartGame() {
@@ -118,5 +131,9 @@ export class GamePageComponent {
 
   trackByFn(index: number, hero: { id: number }) {
     return hero ? hero.id : undefined;
+  }
+
+  setFinalTime(time: string) {
+    this.time = time;
   }
 }
