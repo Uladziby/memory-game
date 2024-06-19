@@ -1,6 +1,8 @@
-<div class="flex flex-row justify-center">
+<div
+  class="flex md:flex-row sm:flex-col-reverse sm:justify-centerjustify-center md:gap-20"
+>
   <div
-    class="w-11/12 flex-wrap items-center justify-center flex-row my-4 max-w-screen-lg gap-2"
+    class="md:w-11/12 sm:w-full flex-wrap items-center justify-center flex-row my-4 max-w-screen-lg gap-2"
     [ngClass]="{
       hidden: isStartGame === false,
       visible: isStartGame === true
@@ -10,34 +12,40 @@
       <app-card
         *ngFor="let card of cards; trackBy: trackByFn"
         [card]="card"
+        [isStopGame]="isStopGame"
         (cardId)="onCheckCardId($event)"
       ></app-card>
     </div>
   </div>
-  <div class="w-2/12 flex justify-center flex-col gap-6">
+  <div class="md:w-2/12 sm:w-full flex justify-center flex-col gap-6">
     <span *ngIf="isStartGame === true" class="text-3xl text-center"
       >Score: {{ numberOfMoves }}
     </span>
-    <button
-      *ngIf="isStartGame === false"
-      class="flex items-center justify-center gap-4 btn-control-panel"
-      (click)="onStartGame()"
-    >
-      <lucide-icon size="48" name="gamepad-2"></lucide-icon>
-      <span class="text-2xl">Start Game</span>
-    </button>
+    <div class="w-full">
+      <button
+        *ngIf="isStartGame === false"
+        class="flex items-center justify-center gap-4 btn-control-panel min-w-20"
+        (click)="onStartGame()"
+      >
+        <lucide-icon size="48" name="gamepad-2"></lucide-icon>
+        <span class="text-2xl">Start Game</span>
+      </button>
+    </div>
+
     <app-timer
       [isStopTimer]="isStopGame"
       (setFinalTime)="setFinalTime($event)"
       *ngIf="isStartGame === true"
     ></app-timer>
-    <button
-      *ngIf="isStartGame === true"
-      class="flex items-center justify-center gap-4 btn-control-panel mt-10 w-full min-w-48"
-      (click)="onStopGame()"
-    >
-      <lucide-icon size="36" name="rotate-ccw"></lucide-icon>
-      <span class="text-xl">Stop Game </span>
-    </button>
+    <div class="flex justify-center">
+      <button
+        *ngIf="isStartGame === true"
+        class="flex items-center justify-center gap-4 btn-control-panel mt-10 w-full min-w-48 max-w-20"
+        (click)="onStopGame()"
+      >
+        <lucide-icon size="36" name="rotate-ccw"></lucide-icon>
+        <span class="text-xl">Stop Game </span>
+      </button>
+    </div>
   </div>
 </div>

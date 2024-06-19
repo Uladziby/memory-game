@@ -66,6 +66,7 @@ export class GamePageComponent implements OnInit {
       .subscribe({
         next: (cards) => {
           this.cards = cards;
+
           if (this.isStartGame) {
             this.isStopGame = true;
             this.isStartGame = false;
@@ -115,10 +116,18 @@ export class GamePageComponent implements OnInit {
       return card;
     });
 
+    this.onCheckCardMatched();
+  }
+
+  onCheckCardMatched() {
     if (this.cards.every((card) => card.isMatched)) {
       this.dialog.open(DialogWinnerComponent, {
         data: { winner: { time: this.time, score: this.numberOfMoves + 1 } },
       });
+
+      setTimeout(() => {
+        this.onStopGame();
+      }, 2000);
     }
   }
 
@@ -126,6 +135,14 @@ export class GamePageComponent implements OnInit {
     this.isStartGame = true;
     this.isStopGame = false;
     this.numberOfMoves = 0;
+
+    this.cards = this.cards.map((card) => {
+      return {
+        ...card,
+        isMatched: false,
+        isFlipped: false,
+      };
+    });
   }
 
   onStopGame() {

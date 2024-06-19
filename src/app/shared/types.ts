@@ -2,6 +2,7 @@ export type CardType = {
   url: string;
   id: number;
   isMatched: boolean;
+  isFlipped: boolean;
 };
 
 export enum StateCardEnum {

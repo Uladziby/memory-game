@@ -1,14 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CardType, StateCardEnum } from '../../../shared/types';
-import {
-  animate,
-  keyframes,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { CardEmitType, CardType, StateCardEnum } from '../../../shared/types';
 import { LucideAngularModule } from 'lucide-angular';
+import { cardAnimations } from '@/app/core/components/card/card.animations';
 
 @Component({
   selector: 'app-card',
@@ -16,32 +10,19 @@ import { LucideAngularModule } from 'lucide-angular';
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
-  animations: [
-    trigger('wobble', [
-      transition(
-        'false => true',
-        animate(
-          '0.75s',
-          keyframes([
-            style({ transform: 'translate(-5%)', offset: 0.1 }),
-            style({ transform: 'translate(5%)', offset: 0.3 }),
-            style({ transform: 'translate(-5%)', offset: 0.5 }),
-            style({ transform: 'translate(5%)', offset: 0.7 }),
-            style({ transform: 'translate(0)', offset: 0.9 }),
-          ])
-        )
-      ),
-    ]),
-  ],
+  animations: cardAnimations,
 })
 export class CardComponent {
-  stateCard: StateCardEnum = StateCardEnum.Unflipped;
+  @Input() isStopGame: boolean = false;
 
   @Input() card!: CardType;
 
-  @Output() cardId: EventEmitter<any> = new EventEmitter<any>();
+  @Output() cardId: EventEmitter<CardEmitType> =
+    new EventEmitter<CardEmitType>();
 
-  cardStyles = {};
+  public cardStyles = {};
+
+  public stateCard: StateCardEnum = StateCardEnum.Unflipped;
 
   protected woobleField = false;
 
@@ -68,6 +49,13 @@ export class CardComponent {
   }
 
   flipToFront() {
+    this.card = { ...this.card, isFlipped: true };
     this.stateCard = StateCardEnum.Flipped;
+  }
+
+  ngOnChanges() {
+    if (this.isStopGame) {
+      this.flipToBack();
+    }
   }
 }

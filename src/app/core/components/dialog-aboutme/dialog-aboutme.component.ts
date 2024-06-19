@@ -13,6 +13,4 @@ import { LucideAngularModule } from 'lucide-angular';
 })
 export class DialogAboutmeComponent {
   public infoAboutme = aboutMe;
-
-  onClose() {}
 }

@@ -10,8 +10,6 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
-import { getFieldSize } from '@/app/shared/utils';
-import { StateService } from '@/app/core/state.service';
 
 @Component({
   selector: 'app-dialog-settings',
