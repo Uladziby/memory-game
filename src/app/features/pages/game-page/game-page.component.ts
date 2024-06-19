@@ -1,13 +1,19 @@
 import { CommonModule, NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '../../../core/components/card/card.component';
-import { CardEmitType, CardType } from '../../../shared/types';
+import {
+  CardEmitType,
+  CardType,
+  SelecetedFieldSize,
+} from '../../../shared/types';
 import { CatsCards } from '@/app/shared/constants';
-import { delay } from '@/app/shared/utils';
+import { delay, shuffleArray } from '@/app/shared/utils';
 import { LucideAngularModule } from 'lucide-angular';
 import { TimerComponent } from '@/app/core/components/timer/timer.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogWinnerComponent } from '@/app/core/components/dialog-winner/dialog-winner.component';
+import { StateService } from '@/app/core/state.service';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-game-page',
@@ -22,7 +28,7 @@ import { DialogWinnerComponent } from '@/app/core/components/dialog-winner/dialo
   templateUrl: './game-page.component.html',
   styleUrl: './game-page.component.scss',
 })
-export class GamePageComponent {
+export class GamePageComponent implements OnInit {
   public cards: CardType[] = [];
 
   private isAnimation = false;
@@ -33,31 +39,39 @@ export class GamePageComponent {
 
   public numberOfMoves: number = 0;
 
-  public fieldSize: number;
-
   public isStopGame: boolean = false;
 
   public time: string = '00:00';
 
+  selectedType: Observable<SelecetedFieldSize> =
+    this.stateService.selectedFieldSize$;
+
   private selectedCard: CardEmitType | null = null;
 
-  constructor(private dialog: MatDialog) {
-    const selectedType = Number(localStorage.getItem('selectedType'));
+  constructor(private dialog: MatDialog, public stateService: StateService) {}
 
-    this.fieldSize = selectedType ? selectedType : 8;
-
-    this.shuffleCards(this.fieldSize);
+  ngOnInit() {
+    this.shuffleCards();
   }
 
-  shuffleCards(size: number) {
-    const transformedArray = CatsCards.sort(() => Math.random() - 0.5).slice(
-      0,
-      size
-    );
-
-    this.cards = transformedArray
-      .concat(transformedArray)
-      .sort(() => Math.random() - 0.5);
+  shuffleCards() {
+    this.selectedType
+      .pipe(
+        map((size) => {
+          const shuffledArray = shuffleArray(CatsCards).slice(0, size);
+          const transformedArray = shuffledArray.concat(shuffledArray);
+          return shuffleArray(transformedArray);
+        })
+      )
+      .subscribe({
+        next: (cards) => {
+          this.cards = cards;
+          if (this.isStartGame) {
+            this.isStopGame = true;
+            this.isStartGame = false;
+          }
+        },
+      });
   }
 
   async onCheckCardId(activeCard: CardEmitType) {
@@ -101,14 +115,9 @@ export class GamePageComponent {
       return card;
     });
 
-    this.dialog.open(DialogWinnerComponent, {
-      data: { time: this.time, score: this.numberOfMoves },
-    });
-
-    console.log('WINNER', this.time, this.numberOfMoves);
     if (this.cards.every((card) => card.isMatched)) {
       this.dialog.open(DialogWinnerComponent, {
-        data: { winner: { time: this.time, score: this.numberOfMoves } },
+        data: { winner: { time: this.time, score: this.numberOfMoves + 1 } },
       });
     }
   }
@@ -125,7 +134,7 @@ export class GamePageComponent {
     setTimeout(() => {
       this.isStartGame = false;
 
-      this.shuffleCards(this.fieldSize);
+      this.shuffleCards();
     }, 0);
   }
 

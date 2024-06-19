@@ -28,3 +28,8 @@ export type WinnerType = {
   time: string;
   score: number;
 };
+
+export enum SelecetedFieldSize {
+  FourXFour = 8,
+  FourXFive = 10,
+}

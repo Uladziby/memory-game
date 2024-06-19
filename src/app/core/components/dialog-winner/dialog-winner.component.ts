@@ -14,7 +14,5 @@ import { LucideAngularModule } from 'lucide-angular';
 export class DialogWinnerComponent {
   public winner: WinnerType = this.data.winner;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { winner: WinnerType }) {
-    console.log(this.winner);
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { winner: WinnerType }) {}
 }

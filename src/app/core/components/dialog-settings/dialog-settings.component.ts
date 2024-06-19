@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChooseTypeDialogData } from '@/app/shared/types';
+import { ChooseTypeDialogData, SelecetedFieldSize } from '@/app/shared/types';
 import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@angular/material/dialog';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { getFieldSize } from '@/app/shared/utils';
+import { StateService } from '@/app/core/state.service';
 
 @Component({
   selector: 'app-dialog-settings',
@@ -28,7 +29,7 @@ import { getFieldSize } from '@/app/shared/utils';
   styleUrl: './dialog-settings.component.scss',
 })
 export class DialogSettingsComponent {
-  selectedType!: '4x4' | '4x5';
+  selectedType: SelecetedFieldSize = SelecetedFieldSize.FourXFour;
 
   constructor(
     public dialogRef: MatDialogRef<DialogSettingsComponent>,
@@ -37,7 +38,6 @@ export class DialogSettingsComponent {
 
   onConfirm() {
     this.dialogRef.close(this.selectedType);
-    localStorage.setItem('selectedType', `${getFieldSize(this.selectedType)}`);
   }
 
   onCancel() {
