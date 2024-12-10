@@ -1,0 +1,23 @@
+<div class="container-card md:w-md-card md:h-md-card xs:w-sm-card xs:h-sm-card">
+  <div
+    [@wobble]="woobleField"
+    class="card md:w-md-card md:h-md-card xs:w-sm-card xs:h-sm-card"
+    [ngStyle]="cardStyles"
+    [ngClass]="{
+      flipped: stateCard === 'Flipped',
+      unflipped: stateCard === 'Unflipped',
+      yes: this.card.isMatched === true
+    }"
+    (click)="flipCard()"
+  >
+    <div class="card-front flex justify-center items-center">
+      <lucide-icon
+        *ngIf="this.card.isMatched"
+        color="#86efac"
+        size="48"
+        name="check"
+      ></lucide-icon>
+    </div>
+    <div class="card-back"></div>
+  </div>
+</div>

@@ -3,11 +3,11 @@
 >
   <button
     class="link flex gap-2 border-x-indigo-500 h-full items-center p-2 cursor-pointer"
+    (click)="openDialogSettings()"
   >
-    <lucide-icon name="home" class="my-icon"></lucide-icon>
-    <span>Settings</span>
+    <lucide-icon name="settings"></lucide-icon> <span>Settings</span>
   </button>
-  <button class="flex gap-2" (click)="openDialog()">
+  <button class="flex gap-2" (click)="openDialogAboutMe()">
     <lucide-icon name="user" class="my-icon"></lucide-icon>
     <span id="create-text">About Me</span>
   </button>

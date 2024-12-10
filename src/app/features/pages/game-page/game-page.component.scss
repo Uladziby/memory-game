@@ -1,0 +1,25 @@
+.cards-field {
+  width: 100%;
+  max-width: 44rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 6rem 0;
+}
+
+:host {
+  width: 100%;
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: flex;
+}

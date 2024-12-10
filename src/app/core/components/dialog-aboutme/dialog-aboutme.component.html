@@ -1,0 +1,16 @@
+<div class="btn"></div>
+<div class="popup m-6">
+  <img src="assets/ava.png" alt="avatar" width="150" />
+  <div mat-dialog-content class="popup_content">
+    <mat-card-title> Wladyslaw Januszewski </mat-card-title>
+    <div
+      class="popup_content-item"
+      *ngFor="let item of this.infoAboutme | keyvalue"
+    >
+      {{ item.key }} :
+
+      <a href="item.value">{{ item.value }}</a>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions></div>
